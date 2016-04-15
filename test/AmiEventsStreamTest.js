@@ -12,6 +12,8 @@ const CRLF = '\r\n',
     fs = require('fs'),
     AmiEventEmitter = require('../lib/AmiEventsStream');
 
+console.log(__dirname, './fixtures/ami.dump');
+
 describe('AmiEventsStream internal functionality', function() {
     this.timeout(process.env.MOCHA_TIMEOUT || 2000);
 
