@@ -4,6 +4,9 @@ node_js:
   - "5"
   - "4"
 
+before_install:
+  - chmod 666 ./test/fixtures/ami.dump
+
 os:
   - linux
   - osx
