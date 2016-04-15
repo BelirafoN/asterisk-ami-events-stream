@@ -12,7 +12,9 @@ const CRLF = '\r\n',
     fs = require('fs'),
     AmiEventEmitter = require('../lib/AmiEventsStream');
 
-describe('AmiEventsStream internal functionality', () => {
+describe('AmiEventsStream internal functionality', function() {
+    this.timeout(process.env.MOCHA_TIMEOUT || 2000);
+
     let eventEmitter = null,
         readStream = null;
 
