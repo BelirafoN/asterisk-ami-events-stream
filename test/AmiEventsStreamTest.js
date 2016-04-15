@@ -31,6 +31,7 @@ describe('AmiEventsStream internal functionality', function() {
                 }, {})
         });
         readStream = fs.createReadStream(path.join(__dirname, './fixtures/ami.dump'));
+        readStream.on('error', error => console.log(error));
     });
 
     it('Push data to "data" handler', done => {
