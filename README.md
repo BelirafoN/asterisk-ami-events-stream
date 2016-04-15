@@ -5,10 +5,6 @@
 Transform-stream for Asterisk AMI's socket. 
 This library is a part of other library for work with Asterisk AMI, which will be release soon. 
 
-### Details of transform stream 
-
-For steam added `amiEvent` event
-
 ### NodeJS versions 
 
 support `>=4.0.0`
