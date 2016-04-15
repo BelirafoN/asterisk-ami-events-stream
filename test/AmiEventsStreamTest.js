@@ -8,11 +8,8 @@
 
 const CRLF = '\r\n',
     assert = require('assert'),
-    path = require('path'),
     fs = require('fs'),
     AmiEventEmitter = require('../lib/AmiEventsStream');
-
-console.log(__dirname, './fixtures/ami.dump');
 
 describe('AmiEventsStream internal functionality', function() {
     this.timeout(process.env.MOCHA_TIMEOUT || 2000);
@@ -32,7 +29,7 @@ describe('AmiEventsStream internal functionality', function() {
                     return obj;
                 }, {})
         });
-        readStream = fs.createReadStream(path.join(__dirname, './fixtures/ami.dump'));
+        readStream = fs.createReadStream('./test/fixtures/ami.dump');
         readStream.on('error', error => console.log(error));
     });
 
