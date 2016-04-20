@@ -46,3 +46,5 @@ AccountCode:
 Cause: 16
 Cause-txt: Normal Clearing
 
+Response: Pong
+

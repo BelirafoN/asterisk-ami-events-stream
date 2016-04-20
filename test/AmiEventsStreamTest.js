@@ -6,10 +6,9 @@
 
 "use strict";
 
-const CRLF = '\r\n',
-    assert = require('assert'),
-    fs = require('fs'),
-    AmiEventEmitter = require('../lib/AmiEventsStream');
+const assert = require('assert');
+const fs = require('fs');
+const AmiEventEmitter = require('../lib/AmiEventsStream');
 
 describe('AmiEventsStream internal functionality', function() {
     this.timeout(process.env.MOCHA_TIMEOUT || 2000);
@@ -18,17 +17,7 @@ describe('AmiEventsStream internal functionality', function() {
         readStream = null;
 
     beforeEach(() => {
-        eventEmitter = new AmiEventEmitter(event => {
-            return event
-                .toString('utf-8')
-                .replace(/^[\r\n]+|[\r\n]+$/g, '')
-                .split(CRLF)
-                .reduce((obj, curr) => {
-                    let pair = curr.split(/:\s|:$/);
-                    obj[pair[0]] = pair.length > 1 ? pair[1] : null;
-                    return obj;
-                }, {})
-        });
+        eventEmitter = new AmiEventEmitter();
         readStream = fs.createReadStream('./test/fixtures/ami.dump');
         readStream.on('error', error => console.log(error));
     });
@@ -37,7 +26,7 @@ describe('AmiEventsStream internal functionality', function() {
         let eventsCount = 0;
         eventEmitter.on('data', event => eventsCount++);
         readStream.on('end', () => {
-            assert.equal(eventsCount, 5);
+            assert.equal(eventsCount, 6);
             done();
         });
         readStream.pipe(eventEmitter);
@@ -48,6 +37,16 @@ describe('AmiEventsStream internal functionality', function() {
         eventEmitter.on('amiEvent', event => eventsCount++);
         readStream.on('end', () => {
             assert.equal(eventsCount, 5);
+            done();
+        });
+        readStream.pipe(eventEmitter);
+    });
+
+    it('Push data to "amiResponse" handler', done => {
+        let eventsCount = 0;
+        eventEmitter.on('amiResponse', event => eventsCount++);
+        readStream.on('end', () => {
+            assert.equal(eventsCount, 1);
             done();
         });
         readStream.pipe(eventEmitter);
@@ -70,11 +69,9 @@ describe('AmiEventsStream internal functionality', function() {
         readStream.pipe(eventEmitter);
     });
 
-    it('Get last amiEvent', done => {
-        let eventsCount = 0;
-        eventEmitter.on('event', event => eventsCount++);
-        readStream.on('end', () => {
-            assert.deepEqual(eventEmitter.getLastEvent(), {
+    it('Get last amiEvent with events', done => {
+        let eventsCount = 0,
+            expectedEvent = {
                 Event: 'Hangup',
                 Privilege: 'call,all',
                 Channel: 'SIP/183-0001a215',
@@ -86,7 +83,12 @@ describe('AmiEventsStream internal functionality', function() {
                 AccountCode: "",
                 Cause: '16',
                 "Cause-txt": 'Normal Clearing'
-            });
+            };
+
+        eventEmitter.on('event', event => eventsCount++);
+        readStream.on('end', () => {
+            assert.deepEqual(eventEmitter.getLastEvent(), expectedEvent);
+            assert.deepEqual(eventEmitter.lastEvent, expectedEvent);
             done();
         });
         readStream.pipe(eventEmitter);
@@ -94,6 +96,27 @@ describe('AmiEventsStream internal functionality', function() {
 
     it('Get last amiEvent without events', () => {
         assert.equal(eventEmitter.getLastEvent(), null);
+        assert.equal(eventEmitter.lastEvent, null);
+    });
+
+    it('Get last amiResponse with responses', done => {
+        let eventsCount = 0,
+            expectedResponse = {
+                Response: 'Pong'
+            };
+
+        eventEmitter.on('event', event => eventsCount++);
+        readStream.on('end', () => {
+            assert.deepEqual(eventEmitter.getLastResponse(), expectedResponse);
+            assert.deepEqual(eventEmitter.lastResponse, expectedResponse);
+            done();
+        });
+        readStream.pipe(eventEmitter);
+    });
+
+    it('Get last amiResponse without responses', () => {
+        assert.equal(eventEmitter.getLastResponse(), null);
+        assert.equal(eventEmitter.lastResponse, null);
     });
 
 });
