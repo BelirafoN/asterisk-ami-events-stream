@@ -18,33 +18,27 @@ Cause-txt: Unknown
 
 Event: HangupRequest
 Privilege: call,all
-Channel: Local/160@from-queue-002e58e2;2
-Uniqueid: 1418896538.6181855
+Channel: Local/160@from-queue-002e58e5;2
+Uniqueid: 1418896538.6181877
 
-Event: Hangup
+row 1 of extended response
+row 2 of extended response
+row 3 of extended response
+
+Response: Success
+Value: 1254
+
+Response: Follows
+row 1
+row 1
+
+row 2
+-- COMMAND END ---
+
+Event: HangupRequest
 Privilege: call,all
-Channel: Local/160@from-queue-002e58e2;1
-Uniqueid: 1418896538.6181854
-CallerIDNum: 160
-CallerIDName: A - VIP
-ConnectedLineNum: 11111111111
-ConnectedLineName: V.I.P.-11111111111
-AccountCode:
-Cause: 0
-Cause-txt: Unknown
-
-
-Event: Hangup
-Privilege: call,all
-Channel: SIP/183-0001a215
-Uniqueid: 1418896538.6181862
-CallerIDNum: 183
-CallerIDName: A -VIP
-ConnectedLineNum: 11111111111
-ConnectedLineName: V.I.P.-11111111111
-AccountCode:
-Cause: 16
-Cause-txt: Normal Clearing
+Channel: Local/160@from-queue-002e58e7;2
+Uniqueid: 1418896538.6181899
 
 Response: Pong
 
