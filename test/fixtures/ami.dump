@@ -29,16 +29,20 @@ Response: Success
 Value: 1254
 
 Response: Follows
-row 1
-row 1
+first extended response, row 1
+first extended response, row 2
 
-row 2
--- COMMAND END ---
+first extended response, row 3
+--END COMMAND--
 
 Event: HangupRequest
 Privilege: call,all
 Channel: Local/160@from-queue-002e58e7;2
 Uniqueid: 1418896538.6181899
+
+Response: Follows
+second extended response, row 1
+--END COMMAND--
 
 Response: Pong
 

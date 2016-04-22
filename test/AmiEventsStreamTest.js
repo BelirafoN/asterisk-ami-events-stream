@@ -8,17 +8,20 @@
 
 const assert = require('assert');
 const fs = require('fs');
+const FixtureTransformer = require('./fixtures/FixtureTransformer');
 const AmiEventEmitter = require('../lib/AmiEventsStream');
 
 describe('AmiEventsStream internal functionality', function() {
     this.timeout(process.env.MOCHA_TIMEOUT || 2000);
 
     let eventEmitter = null,
-        readStream = null;
+        readStream = null,
+        fixtureTransformer = null;
 
     beforeEach(() => {
         eventEmitter = new AmiEventEmitter();
-        readStream = fs.createReadStream('./test/fixtures/ami.dump');
+        fixtureTransformer = new FixtureTransformer();
+        readStream = fs.createReadStream('./test/fixtures/ami.dump').pipe(fixtureTransformer);
         readStream.on('error', error => console.log(error));
     });
 
@@ -26,7 +29,7 @@ describe('AmiEventsStream internal functionality', function() {
         let eventsCount = 0;
         eventEmitter.on('data', event => eventsCount++);
         readStream.on('end', () => {
-            assert.equal(eventsCount, 6);
+            assert.equal(eventsCount, 9);
             done();
         });
         readStream.pipe(eventEmitter);
@@ -36,7 +39,7 @@ describe('AmiEventsStream internal functionality', function() {
         let eventsCount = 0;
         eventEmitter.on('amiEvent', event => eventsCount++);
         readStream.on('end', () => {
-            assert.equal(eventsCount, 5);
+            assert.equal(eventsCount, 4);
             done();
         });
         readStream.pipe(eventEmitter);
@@ -46,7 +49,7 @@ describe('AmiEventsStream internal functionality', function() {
         let eventsCount = 0;
         eventEmitter.on('amiResponse', event => eventsCount++);
         readStream.on('end', () => {
-            assert.equal(eventsCount, 1);
+            assert.equal(eventsCount, 5);
             done();
         });
         readStream.pipe(eventEmitter);
@@ -62,8 +65,8 @@ describe('AmiEventsStream internal functionality', function() {
             }
         });
         readStream.on('end', () => {
-            assert.equal(events['Hangup'].length, 3);
-            assert.equal(events['HangupRequest'].length, 2);
+            assert.equal(events['Hangup'].length, 1);
+            assert.equal(events['HangupRequest'].length, 3);
             done();
         });
         readStream.pipe(eventEmitter);
@@ -72,17 +75,10 @@ describe('AmiEventsStream internal functionality', function() {
     it('Get last amiEvent with events', done => {
         let eventsCount = 0,
             expectedEvent = {
-                Event: 'Hangup',
+                Event: 'HangupRequest',
                 Privilege: 'call,all',
-                Channel: 'SIP/183-0001a215',
-                Uniqueid: '1418896538.6181862',
-                CallerIDNum: '183',
-                CallerIDName: 'A -VIP',
-                ConnectedLineNum: "11111111111",
-                ConnectedLineName: 'V.I.P.-11111111111',
-                AccountCode: "",
-                Cause: '16',
-                "Cause-txt": 'Normal Clearing'
+                Channel: 'Local/160@from-queue-002e58e7;2',
+                Uniqueid: '1418896538.6181899'
             };
 
         eventEmitter.on('event', event => eventsCount++);
