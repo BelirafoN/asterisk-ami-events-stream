@@ -13,10 +13,12 @@ This is a transform stream for AMI socket. This stream has a two custom events:
 
 If response from AMI not has structure like this:
 
+```
 <KEY>: <VALUE>CRLF
 <KEY>: <VALUE>CRLF
 ...
-<KEY>: <VALUE>CRLFCRLF 
+<KEY>: <VALUE>CRLFx2
+```
 
 In above case, body of this response will be available in `$content` property of response object.
 
