@@ -144,4 +144,5 @@ Icon?
 
 # Some dot-files
 .gitignore
+.npmignore
 .travis.yml
