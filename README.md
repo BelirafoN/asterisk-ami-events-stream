@@ -6,9 +6,69 @@
 Transform-stream for Asterisk AMI's socket. 
 This library is a part of other library for work with Asterisk AMI, which will be release soon. 
 
+This is a transform stream for AMI socket. This stream has a two custom events: 
+
+* **`amiEvent`** - fired when event was receive. Handler of this event receives AMI event object.
+* **`amiResponse`** - fired when response was receive. Handler of this event receives AMI response object. 
+
+If response from AMI not has structure like this:
+
+<KEY>: <VALUE>CRLF
+<KEY>: <VALUE>CRLF
+...
+<KEY>: <VALUE>CRLFCRLF 
+
+In above case, body of this response will be available in `$content` property of response object.
+
+### Install 
+
+```bash 
+$ npm i asterisk-ami-events-stream
+```
+
 ### NodeJS versions 
 
 support `>=4.0.0`
+
+### Usage
+
+```javascript
+const net = require('net');
+const amiUtils = require('asterisk-ami-event-utils');
+const AmiEventsStream = require('asterisk-ami-events-stream');
+const eventsStream = new AmiEventsStream();
+
+const amiSocket = net.connect({port: 5038}, () => {
+        console.log('connected to asterisk ami!');
+        amiSocket.write(amiUtils.fromObject({
+                Action: 'login',
+                Username: 'login',
+                Secret: 'password',
+                Events: 'on'
+            }))
+            .pipe(eventsStream);
+    });
+    
+amiSocket
+    .on('end', () => {
+        amiSocket.unpipe(eventsStream);
+        console.log('disconnected from asterisk ami');
+    })
+    .on('error', error => {
+        console.log(error);
+        amiSocket.unpipe(eventsStream);
+    });
+
+eventsStream
+    .on('amiEvent', event => {
+        console.log(event);
+        amiSocket.end();
+    })    
+    .on('amiResponse', response => {
+        console.log(response);
+        amiSocket.end();
+    });    
+```
 
 ### Examples 
 
