@@ -1,6 +1,6 @@
 {
   "name": "asterisk-ami-events-stream",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Asterisk AMI Events Stream",
   "main": "./lib/AmiEventsStream.js",
   "engines": {
