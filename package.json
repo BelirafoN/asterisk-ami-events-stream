@@ -34,6 +34,6 @@
     "mocha": "^2.4.5"
   },
   "dependencies": {
-    "asterisk-ami-event-utils": "^2.0.0"
+    "asterisk-ami-event-utils": "^2.0"
   }
 }
