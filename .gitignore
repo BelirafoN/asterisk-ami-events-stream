@@ -142,4 +142,7 @@ $RECYCLE.BIN/
 .DS_Store*
 Icon?
 
+# tmp folders & files
+tmp
+
 

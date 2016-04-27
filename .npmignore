@@ -124,3 +124,6 @@ Icon?
 .gitignore
 .npmignore
 .travis.yml
+
+# tmp folders & files
+tmp
