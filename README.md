@@ -6,7 +6,7 @@
 [![npm version](https://badge.fury.io/js/asterisk-ami-events-stream.svg)](https://badge.fury.io/js/asterisk-ami-events-stream)
 
 Transform-stream for Asterisk AMI's socket. 
-This library is a part of other library for work with Asterisk AMI, which will be release soon. 
+This library is a part of **[Asterisk's AMI Client](https://www.npmjs.com/package/asterisk-ami-client)** library.
 
 This is a transform stream for AMI socket. This stream has a two custom events: 
 
