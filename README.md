@@ -12,6 +12,7 @@ This is a transform stream for AMI socket. This stream has a two custom events:
 
 * **`amiEvent`** - fired when event was receive. Handler of this event receives AMI event object.
 * **`amiResponse`** - fired when response was receive. Handler of this event receives AMI response object. 
+* **`amiAction`** - fired when action was receive. Handler of this event receives AMI action object. 
 
 If response from AMI not has structure like this:
 
