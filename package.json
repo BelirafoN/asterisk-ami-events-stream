@@ -1,5 +1,7 @@
 {
   "name": "asterisk-ami-events-stream",
+  "version": "1.2.1",
+  "description": "Asterisk AMI Events Stream",
   "version": "1.2.4",
   "description": "Asterisk AMI Events Stream for NodeJS (ES2015)",
   "main": "./lib/AmiEventsStream.js",

@@ -71,6 +71,10 @@ eventsStream
     .on('amiResponse', response => {
         console.log(response);
         amiSocket.end();
+    })
+    .on('amiAction', action => {
+        console.log(action);
+        amiSocket.end();
     });    
 ```
 

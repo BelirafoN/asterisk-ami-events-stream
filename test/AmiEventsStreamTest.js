@@ -29,7 +29,7 @@ describe('AmiEventsStream internal functionality', function() {
         let eventsCount = 0;
         eventEmitter.on('data', event => eventsCount++);
         readStream.on('end', () => {
-            assert.equal(eventsCount, 9);
+            assert.equal(eventsCount, 10);
             done();
         });
         readStream.pipe(eventEmitter);
@@ -50,6 +50,16 @@ describe('AmiEventsStream internal functionality', function() {
         eventEmitter.on('amiResponse', event => eventsCount++);
         readStream.on('end', () => {
             assert.equal(eventsCount, 5);
+            done();
+        });
+        readStream.pipe(eventEmitter);
+    });
+
+    it('Push data to "amiAction" handler', done => {
+        let actionsCount = 0;
+        eventEmitter.on('amiAction', action => actionsCount++);
+        readStream.on('end', () => {
+            assert.equal(actionsCount, 1);
             done();
         });
         readStream.pipe(eventEmitter);
@@ -81,7 +91,7 @@ describe('AmiEventsStream internal functionality', function() {
                 Uniqueid: '1418896538.6181899'
             };
 
-        eventEmitter.on('event', event => eventsCount++);
+        eventEmitter.on('amiEvent', event => eventsCount++);
         readStream.on('end', () => {
             assert.deepEqual(eventEmitter.getLastEvent(), expectedEvent);
             assert.deepEqual(eventEmitter.lastEvent, expectedEvent);
@@ -101,7 +111,7 @@ describe('AmiEventsStream internal functionality', function() {
                 Response: 'Pong'
             };
 
-        eventEmitter.on('event', event => eventsCount++);
+        eventEmitter.on('amiEvent', event => eventsCount++);
         readStream.on('end', () => {
             assert.deepEqual(eventEmitter.getLastResponse(), expectedResponse);
             assert.deepEqual(eventEmitter.lastResponse, expectedResponse);
@@ -113,6 +123,26 @@ describe('AmiEventsStream internal functionality', function() {
     it('Get last amiResponse without responses', () => {
         assert.equal(eventEmitter.getLastResponse(), null);
         assert.equal(eventEmitter.lastResponse, null);
+    });
+
+    it('Get last amiAction with action\'s data', done => {
+        let actionsCount = 0,
+            expected = {
+                Action: 'Ping'
+            };
+
+        eventEmitter.on('amiAction', event => actionsCount++);
+        readStream.on('end', () => {
+            assert.deepEqual(eventEmitter.getLastAction(), expected);
+            assert.deepEqual(eventEmitter.lastAction, expected);
+            done();
+        });
+        readStream.pipe(eventEmitter);
+    });
+
+    it('Get last amiAction without action\'s data', () => {
+        assert.equal(eventEmitter.getLastAction(), null);
+        assert.equal(eventEmitter.lastAction, null);
     });
 
 });
