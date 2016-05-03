@@ -5,10 +5,9 @@
 [![Code Climate](https://codeclimate.com/github/BelirafoN/asterisk-ami-events-stream/badges/gpa.svg)](https://codeclimate.com/github/BelirafoN/asterisk-ami-events-stream)
 [![npm version](https://badge.fury.io/js/asterisk-ami-events-stream.svg)](https://badge.fury.io/js/asterisk-ami-events-stream)
 
-Transform-stream for Asterisk AMI's socket. 
-This library is a part of **[Asterisk's AMI Client](https://www.npmjs.com/package/asterisk-ami-client)** library.
+This is a transform stream for AMI socket. This stream has a three custom events: 
 
-This is a transform stream for AMI socket. This stream has a two custom events: 
+This library is a part of **[Asterisk's AMI Client](https://www.npmjs.com/package/asterisk-ami-client)** library.
 
 * **`amiEvent`** - fired when event was receive. Handler of this event receives AMI event object.
 * **`amiResponse`** - fired when response was receive. Handler of this event receives AMI response object. 
