@@ -49,8 +49,8 @@ const amiSocket = net.connect({port: 5038}, () => {
                 Username: 'login',
                 Secret: 'password',
                 Events: 'on'
-            }))
-            .pipe(eventsStream);
+            }));
+        amiSocket.pipe(eventsStream);
     });
     
 amiSocket

@@ -1,6 +1,6 @@
 {
   "name": "asterisk-ami-events-stream",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "Asterisk AMI Events Stream for NodeJS (ES2015)",
   "main": "./lib/AmiEventsStream.js",
   "engines": {
